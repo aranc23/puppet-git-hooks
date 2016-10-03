@@ -14,7 +14,7 @@ fi
 
 # Check YAML file syntax
 $ERRORS_ONLY || echo -e "$(tput setaf 6)Checking yaml syntax for $module_path...$(tput sgr0)"
-ruby -e "require 'yaml'; YAML.parse(File.open('$1'))" 2> "$error_msg" > /dev/null
+yamllint -d relaxed -f parsable $1 > "$error_msg" 2>&1
 if [ $? -ne 0 ]; then
     sed -e "s/^/$(tput setaf 1)/" -e "s/$/$(tput sgr0)/" "$error_msg"
     syntax_errors=$((syntax_errors + 1))
